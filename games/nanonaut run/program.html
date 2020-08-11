@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Nanonaut Run - Games - Grant Nemzek - UX Developer </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Grant Nemzek, UX Developer in Minneapolis. Web developer in Minneapolis. Web developer portfolio. UX and UI development. Front-end web development. " />
+    <link rel="stylesheet" type="text/css" href="../../css/portfolio.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="../../images/favicon.ico">
+    <!-- Website coded by @grantnemzek -->
+</head>
+
+<body>
+
+    <header class="gameHeader">
+        <h1> Ninja Run</h1>
+    </header>
+    <div class="main nanonauts">
+        <ul class="breadcrumbNav">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../games.html">Games</a></li>
+            <li>Ninja Run</li>
+        </ul>
+        <div class="ninjaRunIntro">
+            <h2>How to Play:</h2>
+            <ol>
+                <li>Click to Start</li>
+                <li>Avoid Robots</li>
+                <li>Hit Space to Jump</li>
+            </ol>
+            <h3> Catch 20 coins before you run out of health!</h3>
+        </div>
+        <script>
+            // CONSTANTS
+            var CANVAS_WIDTH = 800;
+            var CANVAS_HEIGHT = 600;
+
+            var NANONAUT_WIDTH = 181;
+            var NANONAUT_HEIGHT = 229;
+            var GROUND_Y = 540;
+            var NANONAUT_Y_ACCELERATION = 1;
+            var SPACE_KEYCODE = 32;
+            var NANONAUT_JUMP_SPEED = 25;
+            var NANONAUT_X_SPEED = 10;
+            var BACKGROUND_WIDTH = 1000;
+            var NANONAUT_NR_ANIMATION_FRAMES = 7;
+            var NANONAUT_ANIMATION_SPEED = 3;
+            var ROBOT_WIDTH = 141;
+            var ROBOT_HEIGHT = 139;
+            var ROBOT_NR_ANIMATION_FRAMES = 9;
+            var ROBOT_ANIMATION_SPEED = 5;
+            var ROBOT_X_SPEED = 4;
+            var MIN_DISTANCE_BETWEEN_ROBOTS = 400;
+            var MAX_DISTANCE_BETWEEN_ROBOTS = 1200;
+            var MAX_ACTIVE_ROBOTS = 3;
+            var SCREENSHAKE_RADIUS = 16;
+            var NANONAUT_MAX_HEALTH = 100;
+            var PLAY_GAME_MODE = 0;
+            var GAME_OVER_GAME_MODE = 1;
+            var START_SCREEN_MODE = 3;
+            var WIN_SCREEN_MODE = 4;
+            var MIN_DISTANCE_BETWEEN_COINS = 600;
+            var MAX_DISTANCE_BETWEEN_COINS = 1600;
+            var COIN_WIDTH = 90;
+
+
+            // SETUP
+            var canvas = document.createElement('canvas');
+            canvas.setAttribute("id", "nanonautGame");
+            var c = canvas.getContext('2d');
+            canvas.width = CANVAS_WIDTH;
+            canvas.height = CANVAS_HEIGHT;
+            document.body.appendChild(canvas);
+            var nanonautYSpeed = 0;
+            var spaceKeyIsPressed = false;
+            var nanonautFrameNr = 0;
+            var nanonautIsInTheAir = false;
+            var cameraX = 0;
+            var cameraY = 0;
+            var gameFrameCounter = 0;
+            var screenshake = false;
+            var nanonautHealth = NANONAUT_MAX_HEALTH;
+            var gameMode = START_SCREEN_MODE;
+            var coinCounter = 0;
+
+
+            var coinSound = new Audio('Mario-coin-sound.mp3');
+            var crashSound = new Audio('crash_sound.mp3');
+            var backgroundMusic = new Audio('moonCastleBackground.wav');
+
+            var nanonautImage = new Image();
+            nanonautImage.src = 'images/animatedNanonaut.png';
+
+            var backgroundImage = new Image();
+            backgroundImage.src = 'images/background.png';
+
+            var bushImage1 = new Image();
+            bushImage1.src = 'images/bush1.png';
+
+            var bushImage2 = new Image();
+            bushImage2.src = 'images/bush2.png';
+
+            var robotImage = new Image();
+            robotImage.src = 'images/animatedRobot.png';
+
+            var coinImage = new Image();
+            coinImage.src = 'images/coin.png';
+
+            var coinCounterImage = new Image();
+            coinCounterImage.src = 'images/coin.png';
+
+            var nanonautSpriteSheet = {
+                nrFramesPerRow: 5,
+                spriteWidth: NANONAUT_WIDTH,
+                spriteHeight: NANONAUT_HEIGHT,
+                image: nanonautImage
+            };
+
+            var robotSpriteSheet = {
+                nrFramesPerRow: 3,
+                spriteWidth: ROBOT_WIDTH,
+                spriteHeight: ROBOT_HEIGHT,
+                image: robotImage
+            };
+
+            var nanonautCollisionRectangle = {
+                xOffset: 60,
+                yOffset: 20,
+                width: 50,
+                height: 200
+            };
+
+            var robotCollisionRectangle = {
+                xOffset: 50,
+                yOffset: 20,
+                width: 50,
+                height: 100
+            };
+
+            var coinCollisionRectangle = {
+                xOffset: 10,
+                yOffset: 100,
+                width: 90,
+                height: 100
+            };
+
+            var robotData = [];
+
+            var nanonautX = CANVAS_WIDTH / 2;
+            var nanonautY = GROUND_Y - NANONAUT_HEIGHT;
+
+            window.addEventListener('keydown', onKeyDown);
+            window.addEventListener('keyup', onKeyUp);
+
+            window.addEventListener('load', start);
+
+            function start() {
+                window.requestAnimationFrame(mainLoop);
+            }
+
+            function generateBushes() {
+                var generatedBushData = [];
+                var bushX = 0;
+                while (bushX < (2 * CANVAS_WIDTH)) {
+                    var bushImage;
+                    if (Math.random() >= .5) {
+                        bushImage = bushImage1;
+                    } else {
+                        bushImage = bushImage2;
+                    }
+                    generatedBushData.push({
+                        x: bushX,
+                        y: 80 + Math.random() * 20,
+                        image: bushImage
+                    });
+                    bushX += 150 + Math.random() * 200;
+                }
+                return generatedBushData;
+            }
+
+            var bushData = generateBushes();
+
+            function generateCoins() {
+                var generatedCoinData = [];
+                var coinX = 600;
+                while (generatedCoinData.length < 100) {
+                    generatedCoinData.push({
+                        x: coinX,
+                        y: 200,
+                        image: coinImage
+                    });
+                    coinX += 500 + Math.random() * 2000;
+                }
+                return generatedCoinData;
+            }
+
+
+            var coinData = generateCoins();
+
+            // MAIN LOOP
+            function mainLoop() {
+                update();
+                draw();
+                window.requestAnimationFrame(mainLoop);
+            }
+
+            // PLAYER INPUT
+            function onKeyDown(event) {
+                if (event.keyCode === SPACE_KEYCODE) {
+                    spaceKeyIsPressed = true;
+                }
+            }
+
+            function onKeyUp(event) {
+                if (event.keyCode === SPACE_KEYCODE) {
+                    spaceKeyIsPressed = false;
+                }
+            }
+
+
+            // UPDATING
+            function update() {
+                if (gameMode != PLAY_GAME_MODE) return;
+                gameFrameCounter = gameFrameCounter + 1;
+                nanonautX = nanonautX + NANONAUT_X_SPEED;
+                if (spaceKeyIsPressed && !nanonautIsInTheAir) {
+                    nanonautYSpeed = -NANONAUT_JUMP_SPEED;
+                    nanonautIsInTheAir = true;
+                }
+                nanonautY = nanonautY + nanonautYSpeed;
+                nanonautYSpeed = nanonautYSpeed + NANONAUT_Y_ACCELERATION;
+
+                if (nanonautY > (GROUND_Y - NANONAUT_HEIGHT)) {
+                    nanonautY = GROUND_Y - NANONAUT_HEIGHT;
+                    nanonautYSpeed = 0;
+                    nanonautIsInTheAir = false;
+                }
+                // Update Animation 
+                if ((gameFrameCounter % NANONAUT_ANIMATION_SPEED) === 0) {
+                    nanonautFrameNr++;
+                    if (nanonautFrameNr >= NANONAUT_NR_ANIMATION_FRAMES) {
+                        nanonautFrameNr = 0;
+                    }
+                }
+                // Update camera
+                cameraX = nanonautX - 150;
+
+                // Update Bushes
+                for (var i = 0; i < bushData.length; i++) {
+                    if ((bushData[i].x - cameraX) < -CANVAS_WIDTH) {
+                        bushData[i].x += (2 * CANVAS_WIDTH) + 150;
+                    }
+                }
+
+                // Update Coins
+                for (var i = 0; i < coinData.length; i++) {
+                    if ((coinData[i].x - cameraX) < -CANVAS_WIDTH) {
+                        coinData[i].x += (Math.random() * CANVAS_WIDTH) + 150;
+                    }
+                }
+
+                // Update Robots + Coins
+                screenshake = false;
+                var nanonautTouchedARobot = updateRobots();
+                if (nanonautTouchedARobot) {
+                    crashSound.currentTime = 1;
+                    crashSound.play();
+                    screenshake = true;
+                    if (nanonautHealth > 0) nanonautHealth -= 1;
+                }
+                var nanonautTouchedACoin = updateCoins();
+                if (nanonautTouchedACoin) {
+                    coinSound.currentTime = 0;
+                    coinSound.play();
+                }
+
+                //Check if game is over
+                if (nanonautHealth <= 0) {
+                    gameMode = GAME_OVER_GAME_MODE;
+                    screenshake = false;
+
+                    document.getElementById("nanonautGame").addEventListener("click", function() {
+                        window.location.reload();
+                    });
+                } else if (coinCounter === 20) {
+                    gameMode = WIN_SCREEN_MODE;
+                    screenshake = false;
+
+                    document.getElementById("nanonautGame").addEventListener("click", function() {
+                        window.location.reload();
+                    });
+                }
+            }
+
+            function updateRobots() {
+                // Move and animate robots
+                var nanonautTouchedARobot = false;
+                for (var i = 0; i < robotData.length; i++) {
+                    if (doesNanonautOverlapRobot(
+                            nanonautX + nanonautCollisionRectangle.xOffset,
+                            nanonautY + nanonautCollisionRectangle.yOffset,
+                            nanonautCollisionRectangle.width,
+                            nanonautCollisionRectangle.height,
+                            robotData[i].x + robotCollisionRectangle.xOffset,
+                            robotData[i].y + robotCollisionRectangle.yOffset,
+                            robotCollisionRectangle.width,
+                            robotCollisionRectangle.height)) {
+                        nanonautTouchedARobot = true;
+                    }
+                    robotData[i].x -= ROBOT_X_SPEED;
+                    if ((gameFrameCounter % ROBOT_ANIMATION_SPEED) === 0) {
+                        robotData[i].frameNr = robotData[i].frameNr + 1;
+                        if (robotData[i].frameNr >= ROBOT_NR_ANIMATION_FRAMES) {
+                            robotData[i].frameNr = 0;
+                        }
+                    }
+                }
+                // Remove robots that have gone off-screen
+                var robotIndex = 0;
+                while (robotIndex < robotData.length) {
+                    if (robotData[robotIndex].x < cameraX - ROBOT_WIDTH) {
+                        robotData.splice(robotIndex, 1);
+                    } else {
+                        robotIndex += 1;
+                    }
+                }
+
+                //Remove coins that have gone off-screen
+                var coinIndex = 0;
+                while (coinIndex < coinData.length) {
+                    if (coinData[coinIndex].x < cameraX - COIN_WIDTH) {
+                        coinData.splice(coinIndex, 1);
+                    } else {
+                        coinIndex += 1;
+                    }
+                }
+
+                if (robotData.length < MAX_ACTIVE_ROBOTS) {
+                    var lastRobotX = CANVAS_WIDTH;
+                    if (robotData.length > 0) {
+                        lastRobotX = robotData[robotData.length - 1].x;
+                    }
+                    var newRobotX = lastRobotX + MIN_DISTANCE_BETWEEN_ROBOTS + Math.random() * (MAX_DISTANCE_BETWEEN_ROBOTS - MIN_DISTANCE_BETWEEN_ROBOTS);
+                    robotData.push({
+                        x: newRobotX,
+                        y: GROUND_Y - ROBOT_HEIGHT,
+                        frameNr: 0
+                    });
+                }
+
+                return nanonautTouchedARobot;
+            }
+
+            // Coin function
+            function updateCoins() {
+                var nanonautTouchedACoin = false;
+                for (var i = 0; i < coinData.length; i++) {
+                    if (doesNanonautOverlapCoin(
+                            nanonautX + nanonautCollisionRectangle.xOffset,
+                            nanonautY + nanonautCollisionRectangle.yOffset,
+                            nanonautCollisionRectangle.width,
+                            nanonautCollisionRectangle.height,
+                            coinData[i].x + coinCollisionRectangle.xOffset,
+                            coinData[i].y + coinCollisionRectangle.yOffset,
+                            coinCollisionRectangle.width,
+                            coinCollisionRectangle.height)) {
+                        nanonautTouchedACoin = true;
+
+                        // Remove coin 
+                        if (nanonautTouchedACoin) {
+                            var index = coinData.indexOf(coinData[i]);
+                            coinData.splice(index, 1);
+                            console.log("Coin Data Length " + coinData.length);
+                            coinCounter++;
+                            console.log("coin counter: " + coinCounter)
+                        }
+                    }
+
+                }
+                return nanonautTouchedACoin;
+            }
+
+            function doesNanonautOverlapRobotAlongOneAxis(nanonautNearX, nanonautFarX, robotNearX, robotFarX) {
+                var nanonautOverlapsNearRobotEdge = (nanonautFarX >= robotNearX) && (nanonautFarX <= robotFarX);
+                var nanonautOverlapsFarRobotEdge = (nanonautNearX >= robotNearX) && (nanonautNearX <= robotFarX);
+                var nanonautOverlapsEntireRobot = (nanonautNearX <= robotNearX) && (nanonautFarX >= robotFarX);
+                return nanonautOverlapsNearRobotEdge || nanonautOverlapsFarRobotEdge || nanonautOverlapsEntireRobot;
+            }
+
+            function doesNanonautOverlapRobot(nanonautX, nanonautY, nanonautWidth, nanonautHeight, robotX, robotY, robotWidth, robotHeight) {
+                var nanonautOverlapsRobotOnXAxis = doesNanonautOverlapRobotAlongOneAxis(nanonautX, nanonautX + nanonautWidth, robotX, robotX + robotWidth);
+                var nanonautOverlapsRobotOnYAxis = doesNanonautOverlapRobotAlongOneAxis(nanonautY, nanonautY + nanonautHeight, robotY, robotY + robotHeight);
+                return nanonautOverlapsRobotOnXAxis && nanonautOverlapsRobotOnYAxis;
+            }
+
+            function doesNanonautOverlapCoinAlongOneAxis(nanonautNearX, nanonautFarX, coinNearX, coinFarX) {
+                var nanonautOverlapsNearCoinEdge = (nanonautFarX >= coinNearX) && (nanonautFarX <= coinFarX);
+                var nanonautOverlapsFarCoinEdge = (nanonautNearX >= coinNearX) && (nanonautNearX <= coinFarX);
+                var nanonautOverlapsEntireCoin = (nanonautNearX <= coinNearX) && (nanonautFarX >= coinFarX);
+                return nanonautOverlapsNearCoinEdge || nanonautOverlapsFarCoinEdge || nanonautOverlapsEntireCoin;
+            }
+
+            function doesNanonautOverlapCoin(nanonautX, nanonautY, nanonautWidth, nanonautHeight, coinX, coinY, coinWidth, coinHeight) {
+                var nanonautOverlapsCoinOnXAxis = doesNanonautOverlapCoinAlongOneAxis(nanonautX, nanonautX + nanonautWidth, coinX, coinX + coinWidth);
+                var nanonautOverlapsCoinOnYAxis = doesNanonautOverlapCoinAlongOneAxis(nanonautY, nanonautY + nanonautHeight, coinY, coinY + coinHeight);
+                return nanonautOverlapsCoinOnXAxis && nanonautOverlapsCoinOnYAxis;
+            }
+
+            // DRAWING
+            function draw() {
+                // Shake screen if needed        
+                var shakenCameraX = cameraX;
+                var shakenCameraY = cameraY;
+
+                if (screenshake) {
+                    shakenCameraX += (Math.random() - .5) * SCREENSHAKE_RADIUS;
+                    shakenCameraY += (Math.random() - .5) * SCREENSHAKE_RADIUS;
+                }
+                // Sky
+                c.fillStyle = 'LightPink';
+                c.fillRect(0, 0, CANVAS_WIDTH, GROUND_Y - 40);
+
+                // Draw Background
+                var backgroundX = -(shakenCameraX % BACKGROUND_WIDTH);
+                c.drawImage(backgroundImage, backgroundX, -210);
+                c.drawImage(backgroundImage, backgroundX + BACKGROUND_WIDTH, -210);
+
+                // Ground
+                c.fillStyle = 'DarkGreen';
+                c.fillRect(0, GROUND_Y - 40, CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_Y + 40);
+
+                // Draw Bushes
+                for (var i = 0; i < bushData.length; i++) {
+                    c.drawImage(bushData[i].image, bushData[i].x - shakenCameraX, GROUND_Y - bushData[i].y - shakenCameraY);
+                }
+
+                // Draw the robots
+                for (var i = 0; i < robotData.length; i++) {
+                    drawAnimatedSprite(
+                        robotData[i].x - shakenCameraX,
+                        robotData[i].y - shakenCameraY,
+                        robotData[i].frameNr,
+                        robotSpriteSheet
+                    );
+                }
+
+                // Draw Coins
+                for (var i = 0; i < coinData.length; i++) {
+                    c.drawImage(coinData[i].image, coinData[i].x - shakenCameraX, GROUND_Y - coinData[i].y - shakenCameraY);
+                }
+
+                // Draw the Nanonaut
+                drawAnimatedSprite(
+                    nanonautX - shakenCameraX,
+                    nanonautY - shakenCameraY,
+                    nanonautFrameNr,
+                    nanonautSpriteSheet
+                );
+
+                // Draw distance traveled
+                var nanonautDistance = nanonautX / 100;
+                c.fillStyle = 'black';
+                c.font = '48px sans-serif';
+                c.fillText(nanonautDistance.toFixed(0) + 'm', 20, 50);
+
+                // Draw health bar
+                c.fillStyle = 'DodgerBlue';
+                c.fillRect(400, 10, nanonautHealth / NANONAUT_MAX_HEALTH * 380, 40);
+                c.strokeStyle = 'Black';
+                c.lineWidth = 4;
+                c.strokeRect(400, 10, 380, 40);
+
+                // Draw Coin Counter
+                c.drawImage(coinCounterImage, 200, 10, 50, 50);
+                c.fillStyle = 'black';
+                c.font = '48px sans-serif';
+                c.fillText(coinCounter, 250, 50);
+
+
+                // Draw Animated Sprite 
+                function drawAnimatedSprite(screenX, screenY, frameNr, spriteSheet) {
+                    var spriteSheetRow = Math.floor(frameNr / spriteSheet.nrFramesPerRow);
+                    var spriteSheetColumn = frameNr % spriteSheet.nrFramesPerRow;
+                    var spriteSheetX = spriteSheetColumn * spriteSheet.spriteWidth;
+                    var spriteSheetY = spriteSheetRow * spriteSheet.spriteHeight;
+                    c.drawImage(
+                        spriteSheet.image,
+                        spriteSheetX, spriteSheetY,
+                        spriteSheet.spriteWidth, spriteSheet.spriteHeight,
+                        screenX, screenY,
+                        spriteSheet.spriteWidth, spriteSheet.spriteHeight
+                    );
+                }
+
+                // If GAME OVER, display text
+                if (gameMode == GAME_OVER_GAME_MODE) {
+                    c.fillStyle = 'Maroon';
+                    c.font = "96px sans-serif";
+                    c.fillText("GAME OVER", 120, 300);
+                    c.font = "60px sans-serif";
+                    c.fillText("Click to Play Again!", 140, 140);
+                }
+
+                // Win Screen 
+                if (gameMode == WIN_SCREEN_MODE) {
+                    c.fillStyle = 'black';
+                    c.font = "96px sans-serif";
+                    c.fillText("YOU WIN!!", 160, 300);
+                    c.font = "60px sans-serif";
+                    c.fillText("Click to Play Again!", 140, 140);
+                }
+                // Play Music if Play Game
+
+                if (gameMode == PLAY_GAME_MODE) {
+                    backgroundMusic.play();
+                    backgroundMusic.volume = .5;
+                }
+
+                // START_SCREEN mode
+
+                if (gameMode == START_SCREEN_MODE) {
+                    c.drawImage(backgroundImage, 0, -210);
+                    c.fillStyle = 'DarkGreen';
+                    c.fillRect(0, GROUND_Y - 40, CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_Y + 40);
+
+                    //START_SCREEN text
+                    c.fillStyle = 'black';
+                    c.font = "60px sans-serif";
+                    c.fillText("NINJA RUN", 230, 200);
+                    c.font = "96px sans-serif";
+                    c.fillText("Click to Start!", 120, 400);
+
+                    // When user clicks
+                    document.getElementById("nanonautGame").addEventListener("click", function() {
+                        gameMode = PLAY_GAME_MODE;
+                    });
+                }
+            }
+        </script>
+    </div>
+    <div class="navigation projects-navigation">
+        <nav class="menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html" class="current">Projects</a></li>
+            <li><a href="UX.html">What is UX?</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </nav>
+    </div>
+    <!-- end main -->
+</body>
+
+</html>

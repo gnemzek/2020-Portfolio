@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Tic-Tac-Toe - Games - Grant Nemzek - UX Developer </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Grant Nemzek, UX Developer in Minneapolis. Web developer in Minneapolis. Web developer portfolio. UX and UI development. Front-end web development. " />
+    <link rel="stylesheet" type="text/css" href="../../css/portfolio.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="../../images/favicon.ico">
+    <!-- Website coded by @grantnemzek -->
+
+    <style>
+        #button {
+            cursor: pointer;
+            font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        
+        .row div {
+            align-items: center;
+            border: 1px solid black;
+            display: flex;
+            float: left;
+            font-family: sans-serif;
+            font-size: 66px;
+            height: 80px;
+            justify-content: center;
+            padding: 10px;
+            width: 80px;
+        }
+        
+        .row {
+            clear: both;
+        }
+        
+        .wrapper {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .intro {
+            font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+            font-size: 26px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        
+        .winningRow {
+            color: #cd679a;
+        }
+        /* Taking away borders to make the grid look like a tic-tac-toe board */
+        
+        .row div.top-left {
+            border-left: none;
+            border-top: none;
+        }
+        
+        .row div.top-center {
+            border-top: none;
+        }
+        
+        .row div.top-right {
+            border-top: none;
+            border-right: none;
+        }
+        
+        .row div.middle-left {
+            border-left: none;
+        }
+        
+        .row div.middle-right {
+            border-right: none;
+        }
+        
+        .row div.bottom-left {
+            border-left: none;
+            border-bottom: none;
+        }
+        
+        .row div.bottom-center {
+            border-bottom: none;
+        }
+        
+        .row div.bottom-right {
+            border-right: none;
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="gameHeader">
+        <h1> Tic Tac Toe</h1>
+        <h2>(Two-Player) </h2>
+    </header>
+    <ul class="breadcrumbNav">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../games.html">Games</a></li>
+        <li>Tic Tac Toe</li>
+    </ul>
+    <div class="main tic-tac-toe">
+
+        <div class="wrapper" id="gameWrapper">
+            <div class="intro">
+                <p>Click on a box to play Tic-Tac-Toe. </p>
+                <p>O is up first! </p>
+            </div>
+            <div class="boardWrapper">
+                <div class="row">
+                    <div id="0_0" class="top-left" onclick="place(this)"></div>
+                    <div id="1_0" class="top-center" onclick="place(this)"></div>
+                    <div id="2_0" class="top-right" onclick="place(this)"></div>
+                </div>
+                <div class="row">
+                    <div id="0_1" class="middle-left" onclick="place(this)"></div>
+                    <div id="1_1" class="middle-center" onclick="place(this)"></div>
+                    <div id="2_1" class="middle-right" onclick="place(this)"></div>
+                </div>
+                <div class="row">
+                    <div id="0_2" class="bottom-left" onclick="place(this)"></div>
+                    <div id="1_2" class="bottom-center" onclick="place(this)"></div>
+                    <div id="2_2" class="bottom-right" onclick="place(this)"></div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var currentPlayer = "O";
+            var won = false;
+
+            function place(box) {
+                if (box.innerText != "" || won) return;
+                box.innerText = currentPlayer;
+                currentPlayer == "O" ? currentPlayer = "X" : currentPlayer = "O";
+                checkGameBoard();
+            }
+
+            function checkGameBoard() {
+                for (var i = 0; i <= 2; i++) {
+                    checkWinner(document.getElementById("0_" + i).innerText, document.getElementById("1_" + i).innerText, document.getElementById("2_" + i).innerText);
+                    checkWinner(document.getElementById(i + "_0").innerText, document.getElementById(i + "_1").innerText, document.getElementById(i + "_2").innerText);
+                }
+
+                checkWinner(document.getElementById("0_0").innerText, document.getElementById("1_1").innerText, document.getElementById("2_2").innerText);
+                checkWinner(document.getElementById("0_2").innerText, document.getElementById("1_1").innerText, document.getElementById("2_0").innerText);
+            }
+
+            function checkWinner(first, second, third) {
+                if (first !== "" && first === second && first === third) {
+                    currentPlayer == "O" ? currentPlayer = "X" : currentPlayer = "O"; // Change the Current Player back so the alert is correct
+                    alert("Congrats, " + currentPlayer + " You win!");
+                    won = true;
+
+
+                    // Create Play Again button
+                    var btn = document.createElement("a");
+                    var gameWrapper = document.getElementById("gameWrapper");
+                    btn.innerHTML = "Click to Play Again!";
+                    gameWrapper.appendChild(btn);
+                    btn.setAttribute("id", "button");
+                    btn.setAttribute("class", "btn");
+
+                    //Refresh the page if Play Again button is clicked
+                    document.getElementById("button").addEventListener("click", function() {
+                        window.location.reload();
+                    });
+                }
+            }
+        </script>
+    </div>
+    <div class="navigation projects-navigation">
+        <nav class="menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html" class="current">Projects</a></li>
+            <li><a href="UX.html">What is UX?</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </nav>
+    </div>
+    <!-- end main -->
+</body>
+
+</html>

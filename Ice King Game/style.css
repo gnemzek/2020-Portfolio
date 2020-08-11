@@ -1,0 +1,103 @@
+body {
+  background-color: #111111;
+  margin: 0px;
+}
+.header {
+  background-color: #ff69eb;
+  font-family: 'Work Sans';
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+}
+.title-row {
+  margin-bottom: 21px;
+  margin-top: 42px;
+  text-align: center;
+}
+.instructions-title {
+  color: #ff69eb;
+  display: inline;
+  font-family: 'Work Sans';
+  font-size: 18px;
+}
+.instructions-row {
+  margin: 0 auto;
+  width: 400px;
+}
+.instructions-number {
+  color: #ff69eb;
+  font-family: 'Work Sans';
+  font-size: 36px;
+  padding-right: 25px;
+}
+.instructions-text,
+.score {
+  color: #ffffff;
+  font-family: 'Work Sans';
+  font-size: 16px;
+  padding: 10px;
+}
+.instructions-row {
+    margin-top: -180px;
+}
+.door-row {
+  text-align: center;
+}
+.door-frame {
+  cursor: pointer;
+  padding: 10px;
+}
+.start-row {
+  margin: auto;
+  width: 120px;
+  height: 50px;
+  font-family: 'Work Sans';
+  background-color: #ff69eb;
+  font-size: 18px;
+  text-align: center;
+  color: #000;
+  margin-bottom: 21px;
+  cursor: pointer;
+  display: block;
+  border-style: none;
+}
+.score-numbers {
+    text-align: center;
+}
+.score table {
+    border: 2px solid white;
+    padding: 10px;
+    margin-left: 100px;
+}
+.score {
+    font-size: 18px;
+}
+.score td {
+    padding: 0 10px;
+}
+.warning {
+    width: 150px;
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+    margin-left: 100px;
+}
+.warning-bold {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: bold;
+}
+
+/* Mobile and Tablet styles */
+
+@media screen and (max-width: 930px) {
+  .instructions-row {
+    margin-top: 0;
+  }
+  .score table {
+    margin: 0 auto;
+  }
+  .warning {
+    margin: 5px auto;
+}
+}

@@ -1,0 +1,650 @@
+@import url('https://fonts.googleapis.com/css?family=Architects+Daughter|Rubik&display=swap');
+@import 'normalize.css';
+
+/* Layout */
+
+#index {
+    background: url("../images/background-edit.jpg")no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    ;
+    color: #fff;
+    width: auto;
+    height: auto;
+}
+
+body {
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+a,
+p,
+ol,
+ul {
+    font-family: 'Rubik', sans-serif;
+}
+
+a {
+    color: #cd679a;
+    font-weight: bold;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.btn {
+    border: 1px solid #cd679a;
+    margin: 30px 0 45px 0;
+    display: inline-block;
+}
+
+.inlineLink {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Nav */
+
+.navigation {
+    position: fixed;
+    bottom: 0;
+    padding: 10px;
+    width: 100%;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* .menu li {
+    display: inline;
+    list-style: none;
+    width: 150px;
+} */
+
+.menu a {
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 900;
+    display: inline;
+}
+
+.menu a:hover,
+.menu a:active,
+.menu a:focus {
+    color: black;
+}
+
+.navigation {
+    background: #cd679a;
+}
+
+.menu .current {
+    color: #000;
+}
+
+.navigation .icon {
+    display: none;
+}
+
+
+/* Main Page */
+
+.container {
+    display: flex;
+    min-height: 100%;
+}
+
+.mainContent {
+    display: flex;
+    flex: 1;
+    margin: 0 auto;
+}
+
+.headings {
+    justify-content: center;
+    padding: 150px 30px;
+}
+
+.headings .headings-inner {
+    width: auto;
+}
+
+.headings h1 {
+    font-size: 5em;
+    margin: 0;
+}
+
+.headings h2 {
+    font-size: 90px;
+    margin: 0;
+}
+
+.headings-inner-name {
+    color: #cd679a;
+}
+
+.mainLink {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid #fff;
+    display: inline-block;
+    font-size: 20px;
+    margin-top: 25px;
+}
+
+.mainLink:hover,
+.mainLink:active,
+.mainLink:focus {
+    border-color: #cd679a;
+    color: #cd679a;
+}
+
+
+/*About Page */
+
+.about {
+    margin: 50px auto;
+    max-width: 850px;
+}
+
+.about p {
+    line-height: 32px;
+}
+
+.about div {
+    margin: 20px 0;
+}
+
+.about h2,
+.about h1 {
+    border-bottom: 4px solid #cd679a;
+    display: inline-block;
+}
+
+.aboutPhoto {
+    border-radius: 100%;
+    float: right;
+    height: 200px;
+    margin: 10px;
+    margin-top: -70px;
+    width: 200px;
+    -webkit-box-shadow: -8px 10px 39px -24px rgba(0, 0, 0, 0.75), 8px -10px 39px -24px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -8px 10px 39px -24px rgba(0, 0, 0, 0.75), 8px -10px 39px -24px rgba(0, 0, 0, 0.75);
+    box-shadow: -8px 10px 39px -24px rgba(0, 0, 0, 0.75), 8px -10px 39px -24px rgba(0, 0, 0, 0.75);
+}
+
+.aboutHeader {
+    width: 500px;
+}
+
+.about.mainContent {
+    flex-direction: column;
+    margin-bottom: 100px;
+}
+
+.about-container {
+    max-width: 600px;
+}
+
+.about-container.intro {
+    display: flex;
+    margin-top: -10px;
+}
+
+.about .about-container-intro-inner {
+    margin: 0;
+    margin-top: 10px;
+}
+
+
+/* What's UX */
+
+.UXintro,
+.UXdefinition-wrapper,
+.UX-callouts {
+    align-items: center;
+    display: flex;
+    height: 500px;
+    justify-content: center;
+}
+
+.UXintro {
+    background: #cd679a;
+    color: #fff;
+}
+
+.UXintro h1 {
+    font-size: 4em;
+    letter-spacing: -1px;
+}
+
+.UXdefinition-wrapper {
+    border-bottom: 4px solid #666;
+    color: #cd679a;
+    flex-direction: column;
+}
+
+.UXdefinition h2 {
+    font-size: 5em;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.UXdefinition p {
+    font-size: 18px;
+    line-height: 32px;
+    margin-top: 10px;
+}
+
+.noun {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+.definition {
+    margin-left: 35px;
+}
+
+.main.UX {
+    margin-bottom: 100px;
+}
+
+.UX-callouts {
+    align-items: flex-start;
+    justify-content: space-evenly;
+    padding-top: 100px;
+}
+
+.UX-callouts div {
+    width: 250px;
+}
+
+.UX-callouts h3 {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.UXemphasis,
+.UX-callouts h3 {
+    color: #cd679a;
+}
+
+.UX-callouts img {
+    margin: 5px auto;
+    display: block;
+}
+
+.UX-callouts p {
+    line-height: 22px;
+    margin-top: 20px;
+}
+
+.meaningful ul {
+    margin-left: 40px;
+    margin-top: 12px;
+}
+
+
+/* header */
+
+.projectsHeader,
+.contactHeader,
+.gameHeader {
+    align-items: center;
+    background: #cd679a;
+    color: #fff;
+    display: flex;
+    height: 300px;
+    justify-content: center;
+}
+
+
+/* Projects */
+
+.projectsHeader h1 {
+    font-size: 4em;
+    letter-spacing: 3px;
+}
+
+.projectsModules {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    margin-top: 50px;
+    max-width: 1200px;
+}
+
+.project-module,
+.captionWrapper {
+    height: 350px;
+    width: 350px;
+}
+
+.project-module {
+    margin: 5px;
+}
+
+.captionWrapper {
+    align-items: flex-end;
+    justify-content: space-between;
+    display: none;
+}
+
+.project-module:hover .captionWrapper {
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+}
+
+.techieStaffing.project-module {
+    background-image: url(../images/techie.jpg);
+}
+
+.GFE.project-module {
+    background-image: url(../images/GFE.jpg);
+}
+
+.eightBall.project-module {
+    background-image: url(../images/eightBall.png);
+}
+
+.iceKingGame.project-module {
+    background-image: url(../images/iceKing.jpg);
+}
+
+.portfolio.project-module {
+    background-image: url(../images/portfolio.jpg);
+}
+
+.eDiscovery.project-module {
+    background-image: url(../images/cayman.jpg);
+}
+
+.eclipse.project-module {
+    background-image: url(../images/eclipse.jpg);
+}
+
+.nanonaut.project-module {
+    background-image: url(../images/ninjaRunSquare.jpg);
+}
+
+.ticTacToe.project-module {
+    background-image: url(../images/ticTacToe.jpg);
+}
+
+.moreGames.project-module {
+    background-image: url(../images/games-Small.jpg);
+}
+
+.project-module .caption {
+    color: #fff;
+    margin: 10px;
+}
+
+.captionTitle {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.captionSKills {
+    font-size: 12px;
+    padding-left: 2px;
+}
+
+.captionProjectType {
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 2px;
+    padding-left: 2px;
+}
+
+.projectLink {
+    font-size: 35px;
+    margin-bottom: 5px;
+}
+
+.edpWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 25px auto;
+    width: 600px;
+}
+
+.edpWrapper h2 {
+    color: #cd679a;
+    font-size: 2em;
+    margin-top: 15px;
+}
+
+.edpWrapper p {
+    line-height: 26px;
+    margin-bottom: 30px;
+    width: 550px;
+}
+
+.gamesWrapper h2 {
+    color: #cd679a;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.gamesWrapper {
+    border-top: 5px solid #cd679a;
+}
+
+.moreGames.project-module .captionWrapper {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    font-size: 2em;
+    justify-content: center;
+}
+
+.moreGames a {
+    padding: 0;
+}
+
+.gamesIntroWrapper {
+    color: #cd679a;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.gamesIntroWrapper h3 {
+    color: black;
+    font-style: italic;
+    font-size: 1em;
+}
+
+
+/* Contact */
+
+.contactHeader h1 {
+    font-size: 4em;
+}
+
+.contactContent {
+    align-items: center;
+    display: flex;
+    height: 400px;
+    justify-content: center;
+}
+
+.contactContent h2 {
+    line-height: 35px;
+    width: 600px;
+}
+
+
+/* GAMES */
+
+.gameHeader {
+    height: 200px;
+    flex-direction: column;
+}
+
+ul.breadcrumbNav {
+    padding: 10px 16px;
+    list-style: none;
+    background-color: #eee;
+}
+
+ul.breadcrumbNav li {
+    display: inline;
+    font-size: 18px;
+}
+
+ul.breadcrumbNav li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+}
+
+ul.breadcrumbNav li a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+ul.breadcrumbNav li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+
+
+/* Nanonaut/Ninja Game */
+
+#nanonautGame {
+    border: 10px solid #cd679a;
+    display: flex;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    width: auto;
+}
+
+.ninjaRunIntro {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.ninjaRunIntro ol {
+    margin: 10px 0 20px 45px;
+}
+
+.ninjaRunIntro h3 {
+    margin-bottom: 30px;
+}
+
+
+/* Tic Tac Toe */
+
+.main.tic-tac-toe {
+    display: flex;
+    height: 600px;
+    justify-content: center;
+}
+
+
+/* Mobile and Tablet Styles */
+
+@media screen and (max-width: 850px) {
+    .UX-callouts {
+        flex-direction: column;
+        height: auto;
+        margin-bottom: 200px;
+        padding-top: 30px;
+    }
+    .UX-callouts div {
+        margin: 30px auto;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .edpWrapper,
+    .edpWrapper p {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .menu {
+        flex-direction: column;
+    }
+    .navigation {
+        padding: 0;
+    }
+    .navigation a {
+        display: none;
+    }
+    .navigation a.icon {
+        align-self: flex-end;
+        display: block;
+        font-size: 30px;
+    }
+    .menu li {
+        margin: 5px auto;
+        text-align: center;
+    }
+    .about.mainContent {
+        padding: 10px;
+    }
+    .aboutPhoto {
+        height: 100px;
+        width: 100px;
+    }
+    .projectsModules,
+    .main.tic-tac-toe,
+    #nanonautGame {
+        margin-bottom: 250px;
+    }
+    .navigation {
+        -webkit-transition: max-height 0.6s ease-out;
+        -moz-transition: max-height 0.6s ease-out;
+        -o-transition: max-height 0.6s ease-out;
+        -ms-transition: max-height 0.6s ease-out;
+        transition: max-height 0.6s ease-out;
+        max-height: 50px;
+        overflow: hidden;
+    }
+    .navigation.responsive {
+        -webkit-transition: max-height 1s ease-in;
+        -moz-transition: max-height 1s ease-in;
+        -o-transition: max-height 1s ease-in;
+        -ms-transition: max-height 1s ease-in;
+        transition: max-height 1s ease-in;
+        height: auto;
+        max-height: 600px;
+    }
+    .navigation.responsive a.icon {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+    .navigation.responsive a {
+        display: block;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .headings {
+        padding: 15px 3px;
+    }
+    .headings h1 {
+        font-size: 3em;
+    }
+}
