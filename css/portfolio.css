@@ -638,6 +638,9 @@ ul.breadcrumbNav li a:hover {
         display: block;
         text-align: center;
     }
+    .contactContent {
+        padding: 25px;
+    }
 }
 
 @media screen and (max-width: 400px) {

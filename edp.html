@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/portfolio.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
     <link rel="icon" type="image/ico" href="images/favicon.ico">
+    <script src="js/naivgation.js"></script>
     <!-- Website coded by @grantnemzek -->
 </head>
 
@@ -18,9 +19,15 @@
     </header>
     <div class="main projects">
 
+
         <div class="projectsHeader">
             <h1> Projects </h1>
         </div>
+        <ul class="breadcrumbNav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li>eDiscovery</li>
+        </ul>
         <div class="edpWrapper">
             <img src="images/edp2.png">
             <h2> eDiscovery </h2>
@@ -28,13 +35,14 @@
                 and CSS, and someone from tech would plug it into the existing application. It was enjoyable and intricate work. </p>
             <p>I mainly used CSS/Sass and HTML for this project. I used Flexbox to fix a lot of the existing layout issues. I also worked a bit with JavaScript when applicable.</p>
         </div>
-        <div class="navigation projects-navigation">
+        <div class="navigation" id="navigation">
             <nav class="menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="UX.html">What is UX?</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="UX.html">What is UX?</a>
+                <a href="contact.html" class="current">Contact</a>
+                <a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
             </nav>
         </div>
     </div>

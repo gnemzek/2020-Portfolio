@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/portfolio.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
     <link rel="icon" type="image/ico" href="images/favicon.ico">
+    <script src="js/naivgation.js"></script>
     <!-- Website coded by @grantnemzek -->
 </head>
 
@@ -59,7 +60,7 @@
                         <p class="captionSKills"> JavaScript, CSS, Flexbox, Sass, HTML</p>
                         <p class="captionProjectType"> Website/Web App</p>
                     </div>
-                    <a href="edp.html" target="_blank" class="projectLink"> &rarr;</a>
+                    <a href="edp.html" class="projectLink"> &rarr;</a>
                 </div>
             </div>
             <div class="eclipse project-module">
@@ -108,13 +109,14 @@
                 </div>
             </div>
         </div>
-        <div class="navigation projects-navigation">
+        <div class="navigation" id="navigation">
             <nav class="menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="projects.html" class="current">Projects</a></li>
-                <li><a href="UX.html">What is UX?</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="projects.html" class="current">Projects</a>
+                <a href="UX.html">What is UX?</a>
+                <a href="contact.html">Contact</a>
+                <a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
             </nav>
         </div>
     </div>
