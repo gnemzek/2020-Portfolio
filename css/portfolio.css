@@ -373,6 +373,10 @@ a {
     display: flex;
 }
 
+.jennaKahly.project-module {
+    background-image: url(../images/kahly.jpg);
+}
+
 .techieStaffing.project-module {
     background-image: url(../images/techie.jpg);
 }
