@@ -204,16 +204,30 @@ a {
     margin-top: 10px;
 }
 
+.about-letters {
+    font-weight: bold;
+    font-size: 2em;
+    margin-right: 5px;
+}
+
+.about-greeting {
+    display: inline-block;
+    margin: 10px 0;
+}
+
 
 /* What's UX */
 
-.UXintro,
 .UXdefinition-wrapper,
 .UX-callouts {
     align-items: center;
     display: flex;
     height: 500px;
     justify-content: center;
+}
+
+.UXdefinition-wrapper {
+    height: 300px;
 }
 
 .UXintro {
@@ -233,9 +247,12 @@ a {
 }
 
 .UXdefinition h2 {
+    border-bottom: 6px solid #cd679a;
+    color: #cd679a;
     font-size: 5em;
     text-align: center;
-    text-decoration: underline;
+    -webkit-text-stroke: 1px black;
+    text-shadow: 1px 1px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000;
 }
 
 .UXdefinition p {
@@ -252,7 +269,7 @@ a {
 }
 
 .definition {
-    margin-left: 35px;
+    margin-left: 5px;
 }
 
 .main.UX {
@@ -294,9 +311,18 @@ a {
     margin-top: 12px;
 }
 
+.meaningful li {
+    margin-bottom: 20px;
+}
+
+.meaningful-li-first-word {
+    font-weight: bold;
+}
+
 
 /* header */
 
+.UXintro,
 .projectsHeader,
 .contactHeader,
 .gameHeader {
@@ -304,7 +330,7 @@ a {
     background: #cd679a;
     color: #fff;
     display: flex;
-    height: 300px;
+    height: 200px;
     justify-content: center;
 }
 
@@ -337,7 +363,7 @@ a {
 }
 
 .captionWrapper {
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: space-between;
     display: none;
 }
@@ -390,6 +416,7 @@ a {
 .project-module .caption {
     color: #fff;
     margin: 10px;
+    padding-top: 10px;
 }
 
 .captionTitle {
