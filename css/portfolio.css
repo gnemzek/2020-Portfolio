@@ -9,7 +9,6 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    ;
     color: #fff;
     width: auto;
     height: auto;
@@ -248,11 +247,12 @@ a {
 
 .UXdefinition h2 {
     border-bottom: 6px solid #cd679a;
-    color: #cd679a;
+    color: #000;
     font-size: 5em;
+    font-weight: 900;
     text-align: center;
-    -webkit-text-stroke: 1px black;
-    text-shadow: 1px 1px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000, 0px 0px 0 #000;
+    -webkit-text-stroke: 1px #cd679a;
+    text-shadow: 1px 1px 0 #cd679a, 0px 0px 0 #cd679a, 0px 0px 0 #cd679a, 0px 0px 0 #cd679a, 0px 0px 0 #cd679a;
 }
 
 .UXdefinition p {
@@ -415,6 +415,14 @@ a {
 
 .moreGames.project-module {
     background-image: url(../images/games-Small.jpg);
+}
+
+.elaynaWaxse.project-module {
+    background-image: url(../images/elayna.jpg);
+}
+
+.pokedex.project-module {
+    background-image: url(../images/pokedex.jpg);
 }
 
 .project-module .caption {
